@@ -18,6 +18,10 @@ export default class Task extends PureComponent {
     });
 
     render () {
-        return <li className = { Styles.task }>Задача: стартовая точка</li>;
+        return (
+            <li className = { Styles.task }>
+                <div className = { Styles.content }>{this.props.message}</div>
+            </li>
+        );
     }
 }
