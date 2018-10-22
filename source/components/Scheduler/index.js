@@ -12,10 +12,37 @@ export default class Scheduler extends Component {
         newTaskMessage:  '',
         tasksFilter:     '',
         isTasksFetching: false,
-        tasks:           [
-            { id: 1, completed: '', favorit: '', message: 'message' },
-            { id: 2, message: 'message2' }
-        ],
+        tasks:           [],
+    };
+
+    componentDidMount () {
+        this._fetchTasksAsync();
+    }
+
+    _setTasksFetchingState = (state) => {
+        this.setState({
+            isTasksFetching: state,
+        });
+    };
+
+    _fetchTasksAsync = async () => {
+        this._setTasksFetchingState(true);
+
+        this.setState({
+            tasks:           await api.fetchTasks(),
+            isTasksFetching: false,
+        });
+    };
+
+    _createTaskAsync = async (newTaskMessage) => {
+        this._setTasksFetchingState(true);
+        const task = await api.createTask(newTaskMessage);
+
+        this.setState({
+            newTaskMessage:  '',
+            isTasksFetching: false,
+            tasks:           [task, ...this.tasks],
+        });
     };
 
     render () {
@@ -29,9 +56,25 @@ export default class Scheduler extends Component {
         return (
             <section className = { Styles.scheduler }>
                 <Spinner isSpinning = { isTasksFetching } />
-                <ul>
-                    <div>{tasksJSX}</div>
-                </ul>
+                <main>
+                    <header>
+                        <h1>Планировщик задач</h1>
+                        <input placeholder = 'Поиск' type = 'text' />
+                    </header>
+                    <section>
+                        <form>
+                            <input
+                                maxLength = '50'
+                                placeholder = 'Описание моей новой задачи'
+                                type = 'text'
+                            />
+                            <button>Добавить задачу</button>
+                        </form>
+                        <div>
+                            <ul>{tasksJSX}</ul>
+                        </div>
+                    </section>
+                </main>
             </section>
         );
     }

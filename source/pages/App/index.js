@@ -6,11 +6,6 @@ import Scheduler from 'components/Scheduler';
 @hot(module)
 export default class App extends Component {
     render () {
-
-        return (
-            <section>
-                <Scheduler />
-            </section>
-        );
+        return <Scheduler />;
     }
 }
