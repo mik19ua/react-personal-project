@@ -13,14 +13,16 @@ const fetchTasks = async () => {
     return tasks;
 };
 
-const createTask = async (newTaskMessage) => {
+const createTask = async (message) => {
+    console.log(JSON.stringify({ message }));
+
     const response = await fetch(MAIN_URL, {
         method:  'POST',
         headers: {
             'Content-Type': 'application/json',
             Authorization:  TOKEN,
         },
-        body: JSON.stringify({ newTaskMessage }),
+        body: JSON.stringify({ message }),
     });
 
     const { data: task } = await response.json();

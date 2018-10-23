@@ -34,20 +34,37 @@ export default class Scheduler extends Component {
         });
     };
 
-    _createTaskAsync = async (newTaskMessage) => {
+    _createTaskAsync = async () => {
         this._setTasksFetchingState(true);
+        const { newTaskMessage } = this.state;
+
+        if (!newTaskMessage) {
+            return null;
+        }
         const task = await api.createTask(newTaskMessage);
 
-        this.setState({
+        this.setState(({ tasks }) => ({
             newTaskMessage:  '',
             isTasksFetching: false,
-            tasks:           [task, ...this.tasks],
+            tasks:           [task, ...tasks],
+        }));
+    };
+
+    _updateNewTaskMessage = (event) => {
+        this.setState({
+            newTaskMessage: event.target.value,
         });
+    };
+
+    _handleFormSubmit = (event) => {
+        event.preventDefault();
+        this._createTaskAsync();
     };
 
     render () {
         const { isTasksFetching } = this.state;
         const { tasks } = this.state;
+        const { newTaskMessage } = this.state;
 
         const tasksJSX = tasks.map((task) => {
             return <Task key = { task.id } { ...task } />;
@@ -67,8 +84,12 @@ export default class Scheduler extends Component {
                                 maxLength = '50'
                                 placeholder = 'Описание моей новой задачи'
                                 type = 'text'
+                                value = { newTaskMessage }
+                                onChange = { this._updateNewTaskMessage }
                             />
-                            <button>Добавить задачу</button>
+                            <button onClick = { this._createTaskAsync }>
+                                Добавить задачу
+                            </button>
                         </form>
                         <div>
                             <ul>{tasksJSX}</ul>
