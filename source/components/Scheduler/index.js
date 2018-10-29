@@ -34,7 +34,8 @@ export default class Scheduler extends Component {
         });
     };
 
-    _createTaskAsync = async () => {
+    _createTaskAsync = async (event) => {
+        event.preventDefault();
         this._setTasksFetchingState(true);
         const { newTaskMessage } = this.state;
 
@@ -48,6 +49,10 @@ export default class Scheduler extends Component {
             isTasksFetching: false,
             tasks:           [task, ...tasks],
         }));
+    };
+
+    _updateTasksFilter = (event) => {
+        this.setState({ tasksFilter: event.target.value });
     };
 
     _updateNewTaskMessage = (event) => {
@@ -76,7 +81,12 @@ export default class Scheduler extends Component {
                 <main>
                     <header>
                         <h1>Планировщик задач</h1>
-                        <input placeholder = 'Поиск' type = 'text' />
+                        <input
+                            placeholder = 'Поиск'
+                            type = 'search'
+                            value = { this.state.tasksFilter }
+                            onChange = { this._updateTasksFilter }
+                        />
                     </header>
                     <section>
                         <form>
@@ -91,8 +101,12 @@ export default class Scheduler extends Component {
                                 Добавить задачу
                             </button>
                         </form>
-                        <div>
-                            <ul>{tasksJSX}</ul>
+                        <div className = { Styles.overlay }>
+                            <ul>
+                                <div style = { { position: 'relative' } }>
+                                    {tasksJSX}
+                                </div>
+                            </ul>
                         </div>
                     </section>
                 </main>
