@@ -18,7 +18,7 @@ export default class Task extends PureComponent {
         id = this.props.id,
         completed = this.props.completed,
         favorite = this.props.favorite,
-        message = this.props.message,
+        message = this.state.newMessage,
     }) => ({
         id,
         completed,
@@ -53,6 +53,10 @@ export default class Task extends PureComponent {
                 isTaskEditing: false,
             });
         }
+    };
+
+    _updateTask = () => {
+        this.props._updateTaskAsync();
     };
 
     render () {
