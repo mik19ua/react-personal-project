@@ -58,13 +58,16 @@ const updateTask = async (updatedTask) => {
 };
 
 const completeAllTasks = async (tasks) => {
+    tasks.map((task) => task.completed = true);
+
     const requests = tasks.map((task) =>
         fetch(`${MAIN_URL}`, {
             method:  'PUT',
             headers: {
-                Authorization: TOKEN,
+                'Content-Type': 'application/json',
+                Authorization:  TOKEN,
             },
-            body: JSON.stringify({ task }),
+            body: JSON.stringify([task]),
         })
     );
 

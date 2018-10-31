@@ -65,9 +65,16 @@ export default class Task extends PureComponent {
         this.props._updateTaskAsync(task);
     };
 
-    render () {
-        console.log(this.state.newMessage);
+    _updateTaskMessageOnClick = () => {};
+    _cancelUpdatingTaskMessage = () => {};
+    _toggleTaskCompletedState = () => {};
+    _toggleTaskFavoriteState = () => {};
+    _removeTask = async (event) => {
+        event.preventDefault;
+        await this.props._removeTaskAsync(this.props.id);
+    };
 
+    render () {
         return (
             <li className = { Styles.task }>
                 <div className = { Styles.content }>
@@ -95,7 +102,11 @@ export default class Task extends PureComponent {
                         className = { Styles.updateTaskMessageOnClick }
                         onClick = { this._setTaskEditingState }
                     />
-                    <Remove inlineBlock className = { Styles.removeTask } />
+                    <Remove
+                        inlineBlock
+                        className = { Styles.removeTask }
+                        onClick = { this._removeTask }
+                    />
                 </div>
             </li>
         );
