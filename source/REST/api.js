@@ -40,13 +40,16 @@ const removeTask = async (id) => {
 };
 
 const updateTask = async (updatedTask) => {
-    console.log(updatedTask);
+    const arr = [];
+
+    arr.push(updatedTask);
     const response = await fetch(`${MAIN_URL}`, {
         method:  'PUT',
         headers: {
-            Authorization: TOKEN,
+            'Content-Type': 'application/json',
+            Authorization:  TOKEN,
         },
-        body: JSON.stringify({ updatedTask }),
+        body: JSON.stringify(arr),
     });
 
     const { data: task } = await response.json();

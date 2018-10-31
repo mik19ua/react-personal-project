@@ -18,7 +18,7 @@ export default class Task extends PureComponent {
         id = this.props.id,
         completed = this.props.completed,
         favorite = this.props.favorite,
-        message = this.state.newMessage,
+        message = this.props.message,
     }) => ({
         id,
         completed,
@@ -43,8 +43,10 @@ export default class Task extends PureComponent {
         const escapeKey = event.key === 'Escape';
 
         if (enterKey) {
-            event.preventDefault();
             this._updateTask();
+            this.setState({
+                isTaskEditing: false,
+            });
         }
 
         if (escapeKey) {
@@ -56,10 +58,16 @@ export default class Task extends PureComponent {
     };
 
     _updateTask = () => {
-        this.props._updateTaskAsync();
+        const task = this._getTaskShape(this.props);
+
+        task.message = this.state.newMessage;
+
+        this.props._updateTaskAsync(task);
     };
 
     render () {
+        console.log(this.state.newMessage);
+
         return (
             <li className = { Styles.task }>
                 <div className = { Styles.content }>
