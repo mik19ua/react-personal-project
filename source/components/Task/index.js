@@ -13,7 +13,9 @@ export default class Task extends PureComponent {
         isTaskEditing:  false,
         newTaskMessage: '',
         newMessage:     this.props.message,
+        current:        this.props.id,
     };
+    taskInput = React.createRef();
     _getTaskShape = ({
         id = this.props.id,
         completed = this.props.completed,
@@ -30,6 +32,9 @@ export default class Task extends PureComponent {
         this.setState({
             isTaskEditing: true,
         });
+        setTimeout(() => {
+            this.taskInput.current.focus();
+        }, 300);
     };
 
     _updateNewTaskMessage = (event) => {
@@ -69,8 +74,15 @@ export default class Task extends PureComponent {
     _cancelUpdatingTaskMessage = () => {};
     _toggleTaskCompletedState = () => {};
     _toggleTaskFavoriteState = () => {};
+    _taskInputFocus = () => {
+        setTimeout(() => {
+            this.taskInput.current.focus();
+        }, 300);
+    };
+
     _removeTask = async (event) => {
         event.preventDefault;
+
         await this.props._removeTaskAsync(this.props.id);
     };
 
@@ -79,13 +91,15 @@ export default class Task extends PureComponent {
             <li className = { Styles.task }>
                 <div className = { Styles.content }>
                     <Checkbox
+                        checked = { false }
                         className = { Styles.toggleTaskCompletedState }
-                        color1 = '#3B8EF3'
-                        color2 = '#FFF'
+                        color1 = '#363636'
+                        color2 = '#fff'
                     />
                     <input
                         disabled = { !this.state.isTaskEditing }
                         maxLength = { 50 }
+                        ref = { this.taskInput }
                         type = 'text'
                         value = { this.state.newMessage }
                         onChange = { this._updateNewTaskMessage }
