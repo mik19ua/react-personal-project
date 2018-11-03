@@ -29,12 +29,16 @@ export default class Task extends PureComponent {
     });
 
     _setTaskEditingState = () => {
-        this.setState({
-            isTaskEditing: true,
-        });
-        setTimeout(() => {
-            this.taskInput.current.focus();
-        }, 300);
+        if (!this.state.isTaskEditing) {
+            this.setState({
+                isTaskEditing: true,
+            });
+            setTimeout(() => {
+                this.taskInput.current.focus();
+            }, 300);
+        } else {
+            this._updateTaskMessageOnClick();
+        }
     };
 
     _updateNewTaskMessage = (event) => {
@@ -55,10 +59,7 @@ export default class Task extends PureComponent {
         }
 
         if (escapeKey) {
-            this.setState({
-                newMessage:    this.props.message,
-                isTaskEditing: false,
-            });
+            this._cancelUpdatingTaskMessage();
         }
     };
 
@@ -70,8 +71,23 @@ export default class Task extends PureComponent {
         this.props._updateTaskAsync(task);
     };
 
-    _updateTaskMessageOnClick = () => {};
-    _cancelUpdatingTaskMessage = () => {};
+    _updateTaskMessageOnClick = () => {
+        console.log('_updateTaskMessageOnClick called');
+        if (this.props.message === this.state.newMessage) {
+            this._cancelUpdatingTaskMessage();
+        } else {
+            this._updateTask();
+            this.setState({
+                isTaskEditing: false,
+            });
+        }
+    };
+    _cancelUpdatingTaskMessage = () => {
+        this.setState({
+            newMessage:    this.props.message,
+            isTaskEditing: false,
+        });
+    };
     _toggleTaskCompletedState = () => {};
     _toggleTaskFavoriteState = () => {};
     _taskInputFocus = () => {

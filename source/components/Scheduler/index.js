@@ -156,8 +156,8 @@ export default class Scheduler extends Component {
                     <footer className = { Styles.footer }>
                         <Checkbox
                             className = { Styles.toggleTaskCompletedState }
-                            color1 = '#3B8EF3'
-                            color2 = '#FFF'
+                            color1 = '#363636'
+                            color2 = '#fff'
                             onClick = { this._completeAllTasksAsync }
                         />
                         <span className = { Styles.completeAllTasks }>
