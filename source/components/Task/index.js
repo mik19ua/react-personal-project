@@ -52,10 +52,7 @@ export default class Task extends PureComponent {
         const escapeKey = event.key === 'Escape';
 
         if (enterKey) {
-            this._updateTask();
-            this.setState({
-                isTaskEditing: false,
-            });
+            this._updateTaskMessageOnClick();
         }
 
         if (escapeKey) {
