@@ -104,7 +104,7 @@ export default class Task extends PureComponent {
             <li className = { Styles.task }>
                 <div className = { Styles.content }>
                     <Checkbox
-                        checked = { false }
+                        checked = { this.props.completed }
                         className = { Styles.toggleTaskCompletedState }
                         color1 = '#363636'
                         color2 = '#fff'
@@ -122,6 +122,7 @@ export default class Task extends PureComponent {
                 <div className = { Styles.actions }>
                     <Star
                         inlineBlock
+                        checked = { this.props.favorite }
                         className = { Styles.toggleTaskFavoriteState }
                     />
                     <Edit
