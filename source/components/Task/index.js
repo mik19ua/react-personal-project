@@ -85,18 +85,30 @@ export default class Task extends PureComponent {
             isTaskEditing: false,
         });
     };
-    _toggleTaskCompletedState = () => {};
-    _toggleTaskFavoriteState = () => {};
+    _toggleTaskCompletedState = () => {
+        const completed = {
+            completed: !this.props.completed,
+        };
+        const task = this._getTaskShape(completed);
+
+        this.props._updateTaskAsync(task);
+    };
+    _toggleTaskFavoriteState = () => {
+        const favorite = {
+            favorite: !this.props.favorite,
+        };
+        const task = this._getTaskShape(favorite);
+
+        this.props._updateTaskAsync(task);
+    };
     _taskInputFocus = () => {
         setTimeout(() => {
             this.taskInput.current.focus();
         }, 300);
     };
 
-    _removeTask = async (event) => {
-        event.preventDefault;
-
-        await this.props._removeTaskAsync(this.props.id);
+    _removeTask = () => {
+        this.props._removeTaskAsync(this.props.id);
     };
 
     render () {
@@ -108,6 +120,7 @@ export default class Task extends PureComponent {
                         className = { Styles.toggleTaskCompletedState }
                         color1 = '#363636'
                         color2 = '#fff'
+                        onClick = { this._toggleTaskCompletedState }
                     />
                     <input
                         disabled = { !this.state.isTaskEditing }
@@ -124,6 +137,7 @@ export default class Task extends PureComponent {
                         inlineBlock
                         checked = { this.props.favorite }
                         className = { Styles.toggleTaskFavoriteState }
+                        onClick = { this._toggleTaskFavoriteState }
                     />
                     <Edit
                         inlineBlock
