@@ -119,11 +119,11 @@ export default class Task extends PureComponent {
             <li className = { Styles.task }>
                 <div className = { Styles.content }>
                     <Checkbox
+                        inlineBlock
                         checked = { this.props.completed }
                         className = { Styles.toggleTaskCompletedState }
                         color1 = '#3B8EF3'
                         color2 = '#FFF'
-                        inlineBlock
                         onClick = { this._toggleTaskCompletedState }
                     />
                     <input
@@ -154,10 +154,10 @@ export default class Task extends PureComponent {
                         onClick = { this._updateTaskMessageOnClick }
                     />
                     <Remove
+                        inlineBlock
                         className = { Styles.removeTask }
                         color1 = '#3B8EF3'
                         color2 = '#000'
-                        inlineBlock
                         onClick = { this._removeTask }
                     />
                 </div>
