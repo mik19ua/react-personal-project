@@ -54,7 +54,7 @@ export default class Scheduler extends Component {
 
         this.setState({ newTaskMessage: '' });
         this.setState(({ tasks }) => ({
-            tasks: sortTasksByGroup([task, ...tasks]),
+            tasks: [task, ...tasks],
         }));
 
         this._setTasksFetchingState(false);
