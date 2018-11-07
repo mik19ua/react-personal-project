@@ -36,9 +36,11 @@ export default class Task extends PureComponent {
         this.setState({
             isTaskEditing: state,
         });
-        if (state) {
-            this._taskInputFocus();
-        }
+        setTimeout(() => {
+            if (state) {
+                this._taskInputFocus();
+            }
+        }, 1);
     };
 
     _updateNewTaskMessage = (event) => {
@@ -119,8 +121,9 @@ export default class Task extends PureComponent {
                     <Checkbox
                         checked = { this.props.completed }
                         className = { Styles.toggleTaskCompletedState }
-                        color1 = '#363636'
-                        color2 = '#fff'
+                        color1 = '#3B8EF3'
+                        color2 = '#FFF'
+                        inlineBlock
                         onClick = { this._toggleTaskCompletedState }
                     />
                     <input
@@ -138,19 +141,23 @@ export default class Task extends PureComponent {
                         inlineBlock
                         checked = { this.props.favorite }
                         className = { Styles.toggleTaskFavoriteState }
-                        color1 = '#f00'
+                        color1 = '#3B8EF3'
+                        color2 = '#000'
                         onClick = { this._toggleTaskFavoriteState }
                     />
                     <Edit
                         inlineBlock
+                        checked = { this.state.isTaskEditing }
                         className = { Styles.updateTaskMessageOnClick }
-                        color1 = '#f00'
+                        color1 = '#3B8EF3'
+                        color2 = '#000'
                         onClick = { this._updateTaskMessageOnClick }
                     />
                     <Remove
-                        inlineBlock
                         className = { Styles.removeTask }
-                        color1 = '#f00'
+                        color1 = '#3B8EF3'
+                        color2 = '#000'
+                        inlineBlock
                         onClick = { this._removeTask }
                     />
                 </div>

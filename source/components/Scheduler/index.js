@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import Task from 'components/Task';
 import Spinner from 'components/Spinner';
+import FlipMove from 'react-flip-move';
 
 // Instruments
 import Styles from './styles.m.css';
@@ -172,8 +173,9 @@ export default class Scheduler extends Component {
                     <section>
                         <form onSubmit = { this._createTaskAsync }>
                             <input
+                                className = { Styles.createTask }
                                 maxLength = { 50 }
-                                placeholder = 'Описание моей новой задачи'
+                                placeholder = 'Описaние моей новой задачи'
                                 type = 'text'
                                 value = { newTaskMessage }
                                 onChange = { this._updateNewTaskMessage }
@@ -182,15 +184,14 @@ export default class Scheduler extends Component {
                         </form>
                         <div className = { Styles.overlay }>
                             <ul>
-                                <div style = { { position: 'relative' } }>
-                                    {tasksJSX}
-                                </div>
+                                <FlipMove duration = { 400 }>{tasksJSX}</FlipMove>
                             </ul>
                         </div>
                     </section>
-                    <footer className = { Styles.footer }>
+                    <footer>
                         <Checkbox
-                            className = { Styles.toggleTaskCompletedState }
+                            checked = { false }
+                            // className = { Styles.toggleTaskCompletedState }
                             color1 = '#363636'
                             color2 = '#fff'
                             onClick = { this._completeAllTasksAsync }
