@@ -48,6 +48,8 @@ export default class Scheduler extends Component {
         this._setTasksFetchingState(true);
 
         if (!this.state.newTaskMessage) {
+            this._setTasksFetchingState(false);
+
             return null;
         }
         const task = await api.createTask(this.state.newTaskMessage);
