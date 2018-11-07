@@ -14,8 +14,6 @@ const fetchTasks = async () => {
 };
 
 const createTask = async (message) => {
-    console.log(JSON.stringify({ message }));
-
     const response = await fetch(MAIN_URL, {
         method:  'POST',
         headers: {
