@@ -7,6 +7,7 @@ import Spinner from 'components/Spinner';
 import Styles from './styles.m.css';
 import { api } from '../../REST'; // ! Импорт модуля API должен иметь именно такой вид (import { api } from '../../REST')
 import Checkbox from '../../theme/assets/Checkbox';
+import { sortTasksByGroup } from '../../instruments';
 
 export default class Scheduler extends Component {
     state = {
@@ -30,7 +31,12 @@ export default class Scheduler extends Component {
         this._setTasksFetchingState(true);
 
         this.setState({
-            tasks: await api.fetchTasks(),
+            tasks: sortTasksByGroup(await api.fetchTasks()),
+        });
+        const { tasks } = this.state;
+
+        this.setState({
+            initialData: tasks,
         });
 
         this._setTasksFetchingState(false);
@@ -54,7 +60,7 @@ export default class Scheduler extends Component {
     };
 
     _updateTasksFilter = (event) => {
-        this.setState({ tasksFilter: event.target.value });
+        this.setState({ tasksFilter: event.target.value.toLowerCase() });
     };
 
     _updateNewTaskMessage = (event) => {
@@ -74,14 +80,26 @@ export default class Scheduler extends Component {
 
         this.setState(({ tasks }) => ({
             newTaskMessage: '',
-            tasks:          tasks.map(
-                (task) =>
-                    task.id === updatedTask[0].id ? updatedTask[0] : task
+            tasks:          sortTasksByGroup(
+                tasks.map(
+                    (task) =>
+                        task.id === updatedTask[0].id ? updatedTask[0] : task
+                )
             ),
         }));
         this._setTasksFetchingState(false);
     };
-    _getAllCompleted = () => {};
+    _getAllCompleted = () => {
+        const notCompletedTasks = this.state.tasks.filter(
+            (task) => !task.completed
+        );
+
+        if (notCompletedTasks.length === 0) {
+            return true;
+        }
+
+        return false;
+    };
     _removeTaskAsync = async (id) => {
         this._setTasksFetchingState(true);
         await api.removeTask(id);
@@ -98,19 +116,29 @@ export default class Scheduler extends Component {
         if (notCompletedTasks.length === 0) {
             return null;
         }
-        this._setTasksFetchingState(true);
-        const completedTasks = await api.completeAllTasks(notCompletedTasks);
 
-        console.log(completedTasks);
+        this._setTasksFetchingState(true);
+        await api.completeAllTasks(notCompletedTasks);
+        const { tasks } = this.state;
+
+        tasks.map((task) => task.completed = true);
+
         this._setTasksFetchingState(false);
     };
 
     render () {
         const { isTasksFetching } = this.state;
+
         const { tasks } = this.state;
+        const { tasksFilter } = this.state;
+
+        const filteredTask = tasks.filter((task) => {
+            return task.message.toLowerCase().includes(tasksFilter);
+        });
+
         const { newTaskMessage } = this.state;
 
-        const tasksJSX = tasks.map((task) => {
+        const tasksJSX = filteredTask.map((task) => {
             return (
                 <Task
                     key = { task.id }

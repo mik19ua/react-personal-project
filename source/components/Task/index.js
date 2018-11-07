@@ -28,16 +28,16 @@ export default class Task extends PureComponent {
         message,
     });
 
-    _setTaskEditingState = () => {
-        if (!this.state.isTaskEditing) {
-            this.setState({
-                isTaskEditing: true,
-            });
-            setTimeout(() => {
-                this.taskInput.current.focus();
-            }, 300);
-        } else {
-            this._updateTaskMessageOnClick();
+    _taskInputFocus = () => {
+        this.taskInput.current.focus();
+    };
+
+    _setTaskEditingState = (state) => {
+        this.setState({
+            isTaskEditing: state,
+        });
+        if (state) {
+            this._taskInputFocus();
         }
     };
 
@@ -51,8 +51,12 @@ export default class Task extends PureComponent {
         const enterKey = event.key === 'Enter';
         const escapeKey = event.key === 'Escape';
 
+        if (this.state.newMessage === '') {
+            return null;
+        }
+
         if (enterKey) {
-            this._updateTaskMessageOnClick();
+            this._updateTask();
         }
 
         if (escapeKey) {
@@ -61,23 +65,25 @@ export default class Task extends PureComponent {
     };
 
     _updateTask = () => {
-        const task = this._getTaskShape(this.props);
+        this._setTaskEditingState(false);
+        if (this.state.newMessage !== this.props.message) {
+            const task = this._getTaskShape(this.props);
 
-        task.message = this.state.newMessage;
+            task.message = this.state.newMessage;
 
-        this.props._updateTaskAsync(task);
+            this.props._updateTaskAsync(task);
+        } else {
+            return null;
+        }
     };
 
     _updateTaskMessageOnClick = () => {
-        console.log('_updateTaskMessageOnClick called');
-        if (this.props.message === this.state.newMessage) {
-            this._cancelUpdatingTaskMessage();
-        } else {
+        if (this.state.isTaskEditing) {
             this._updateTask();
-            this.setState({
-                isTaskEditing: false,
-            });
+
+            return null;
         }
+        this._setTaskEditingState(!this.state.isTaskEditing);
     };
     _cancelUpdatingTaskMessage = () => {
         this.setState({
@@ -100,11 +106,6 @@ export default class Task extends PureComponent {
         const task = this._getTaskShape(favorite);
 
         this.props._updateTaskAsync(task);
-    };
-    _taskInputFocus = () => {
-        setTimeout(() => {
-            this.taskInput.current.focus();
-        }, 300);
     };
 
     _removeTask = () => {
@@ -137,16 +138,19 @@ export default class Task extends PureComponent {
                         inlineBlock
                         checked = { this.props.favorite }
                         className = { Styles.toggleTaskFavoriteState }
+                        color1 = '#f00'
                         onClick = { this._toggleTaskFavoriteState }
                     />
                     <Edit
                         inlineBlock
                         className = { Styles.updateTaskMessageOnClick }
-                        onClick = { this._setTaskEditingState }
+                        color1 = '#f00'
+                        onClick = { this._updateTaskMessageOnClick }
                     />
                     <Remove
                         inlineBlock
                         className = { Styles.removeTask }
+                        color1 = '#f00'
                         onClick = { this._removeTask }
                     />
                 </div>

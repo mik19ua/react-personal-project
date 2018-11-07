@@ -71,9 +71,9 @@ const completeAllTasks = async (tasks) => {
         })
     );
 
-    const { data: tasksCompl } = await Promise.all(requests);
+    const { data: error } = await Promise.all(requests);
 
-    return tasksCompl;
+    return error;
 };
 
 export const api = {
