@@ -119,10 +119,17 @@ export default class Scheduler extends Component {
 
         this._setTasksFetchingState(true);
         await api.completeAllTasks(notCompletedTasks);
-        const { tasks } = this.state;
 
-        tasks.map((task) => task.completed = true);
+        this.setState(({ tasks }) => ({
+            newTaskMessage: '',
+            tasks:          sortTasksByGroup(
+                tasks.map((task) => {
+                    task.completed = true;
 
+                    return task;
+                })
+            ),
+        }));
         this._setTasksFetchingState(false);
     };
 
