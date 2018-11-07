@@ -36,6 +36,7 @@ export default class Task extends PureComponent {
         this.setState({
             isTaskEditing: state,
         });
+        // Тест не проходит, зато работает
         setTimeout(() => {
             if (state) {
                 this._taskInputFocus();

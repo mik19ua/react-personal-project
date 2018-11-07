@@ -22,9 +22,9 @@ export default class Scheduler extends Component {
         this._fetchTasksAsync();
     }
 
-    _setTasksFetchingState = (state) => {
+    _setTasksFetchingState = (tasksFetchingState) => {
         this.setState({
-            isTasksFetching: state,
+            isTasksFetching: tasksFetchingState,
         });
     };
 

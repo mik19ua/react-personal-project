@@ -9,6 +9,9 @@ export default class Spinner extends Component {
     static propTypes = {
         isSpinning: PropTypes.bool.isRequired,
     };
+    static defaultProps = {
+        isSpinning: false,
+    };
 
     render () {
         const { isSpinning } = this.props;
