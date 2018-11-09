@@ -4,11 +4,20 @@ import Checkbox from '../../theme/assets/Checkbox';
 import Edit from '../../theme/assets/Edit';
 import Star from '../../theme/assets/Star';
 import Remove from '../../theme/assets/Remove';
+import PropTypes from 'prop-types';
 
 // Instruments
 import Styles from './styles.m.css';
 
 export default class Task extends PureComponent {
+    static propTypes = {
+        _removeTaskAsync: PropTypes.func.isRequired,
+        _updateTaskAsync: PropTypes.func.isRequired,
+        completed:        PropTypes.bool.isRequired,
+        favorite:         PropTypes.bool.isRequired,
+        id:               PropTypes.string.isRequired,
+        message:          PropTypes.string.isRequired,
+    };
     state = {
         isTaskEditing: false,
         newMessage:    this.props.message,
