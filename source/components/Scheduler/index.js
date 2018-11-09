@@ -92,6 +92,7 @@ export default class Scheduler extends Component {
         }));
         this._setTasksFetchingState(false);
     };
+
     _getAllCompleted = () => {
         const notCompletedTasks = this.state.tasks.filter(
             (task) => !task.completed
@@ -103,6 +104,7 @@ export default class Scheduler extends Component {
 
         return false;
     };
+
     _removeTaskAsync = async (id) => {
         this._setTasksFetchingState(true);
         await api.removeTask(id);
@@ -111,6 +113,7 @@ export default class Scheduler extends Component {
         }));
         this._setTasksFetchingState(false);
     };
+
     _completeAllTasksAsync = async () => {
         const notCompletedTasks = this.state.tasks.filter(
             (task) => !task.completed
@@ -138,7 +141,6 @@ export default class Scheduler extends Component {
 
     render () {
         const { isTasksFetching } = this.state;
-
         const { tasks } = this.state;
         const { tasksFilter } = this.state;
 

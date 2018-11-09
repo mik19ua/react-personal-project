@@ -18,6 +18,7 @@ export default class Task extends PureComponent {
         id:               PropTypes.string.isRequired,
         message:          PropTypes.string.isRequired,
     };
+
     state = {
         isTaskEditing: false,
         newMessage:    this.props.message,
@@ -97,12 +98,14 @@ export default class Task extends PureComponent {
         }
         this._setTaskEditingState(!this.state.isTaskEditing);
     };
+
     _cancelUpdatingTaskMessage = () => {
         this.setState({
             newMessage:    this.props.message,
             isTaskEditing: false,
         });
     };
+
     _toggleTaskCompletedState = () => {
         const completed = {
             completed: !this.props.completed,
@@ -111,6 +114,7 @@ export default class Task extends PureComponent {
 
         this.props._updateTaskAsync(task);
     };
+
     _toggleTaskFavoriteState = () => {
         const favorite = {
             favorite: !this.props.favorite,
