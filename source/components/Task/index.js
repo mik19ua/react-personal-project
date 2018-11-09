@@ -10,12 +10,12 @@ import Styles from './styles.m.css';
 
 export default class Task extends PureComponent {
     state = {
-        isTaskEditing:  false,
-        newTaskMessage: '',
-        newMessage:     this.props.message,
-        current:        this.props.id,
+        isTaskEditing: false,
+        newMessage:    this.props.message,
     };
+
     taskInput = React.createRef();
+
     _getTaskShape = ({
         id = this.props.id,
         completed = this.props.completed,
@@ -29,19 +29,19 @@ export default class Task extends PureComponent {
     });
 
     _taskInputFocus = () => {
-        this.taskInput.current.focus();
+        setTimeout(() => {
+            this.taskInput.current.focus();
+        }, 1);
     };
 
-    _setTaskEditingState = (state) => {
+    _setTaskEditingState = (editingState) => {
         this.setState({
-            isTaskEditing: state,
+            isTaskEditing: editingState,
         });
-        // Тест не проходит, зато работает
-        setTimeout(() => {
-            if (state) {
-                this._taskInputFocus();
-            }
-        }, 1);
+
+        if (editingState) {
+            this._taskInputFocus();
+        }
     };
 
     _updateNewTaskMessage = (event) => {
